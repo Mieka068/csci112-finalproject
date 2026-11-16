@@ -15,6 +15,11 @@ def get_participant_by_student_id(id_number):
         "idNumber": id_number
     })
 
+def get_participant_by_email(email):
+    return participants.find_one({
+        "email": email
+    })
+
 # Organizers
 def get_all_organizers():
     return list(organizers.find())
@@ -36,4 +41,10 @@ def get_all_users():
 def get_user_by_id(user_id):
     return users.find_one({
         "_id": ObjectId(user_id)
+    })
+
+
+def get_user_by_email(email):
+    return users.find_one({
+        "email": email
     })
