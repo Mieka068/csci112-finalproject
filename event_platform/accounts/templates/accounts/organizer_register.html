@@ -1,0 +1,96 @@
+<h2>Organizer Registration</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div>
+        <label>Organization Name:</label>
+        <select name="organizationName" required>
+            <option value="" disabled selected></option>
+            <option value="AIESEC in Ateneo de Manila University">AIESEC in Ateneo de Manila University</option>
+            <option value="Alay ni Ignacio">Alay ni Ignacio</option>
+            <option value="Ateneo AEGIS">Ateneo AEGIS</option>
+            <option value="Ateneo Aspiring Restaurant Entrepreneurs Association">Ateneo Aspiring Restaurant Entrepreneurs Association</option>
+            <option value="Ateneo Association for Communications Technology Management">Ateneo Association for Communications Technology Management</option>
+            <option value="Ateneo Association of European Studies Students">Ateneo Association of European Studies Students</option>
+            <option value="Ateneo Biological Organization - eXplore. eXperience. eXcel.">Ateneo Biological Organization - eXplore. eXperience. eXcel.</option>
+            <option value="Ateneo Blue Consulting Group">Ateneo Blue Consulting Group</option>
+            <option value="Ateneo Blue Repertory">Ateneo Blue Repertory</option>
+            <option value="Ateneo Celadon">Ateneo Celadon</option>
+            <option value="Ateneo Chemistry Society">Ateneo Chemistry Society</option>
+            <option value="Ateneo Christian Life Community">Ateneo Christian Life Community</option>
+            <option value="Ateneo College Ministry Group">Ateneo College Ministry Group</option>
+            <option value="Ateneo Collegiate Society of Advertising">Ateneo Collegiate Society of Advertising</option>
+            <option value="Ateneo Commission on Audit">Ateneo Commission on Audit</option>
+            <option value="Ateneo Commission on Elections">Ateneo Commission on Elections</option>
+            <option value="Ateneo Consultants for Organization Development and Empowerment">Ateneo Consultants for Organization Development and Empowerment</option>
+            <option value="Ateneo de Manila College Glee Club">Ateneo de Manila College Glee Club</option>
+            <option value="Ateneo Debate Society">Ateneo Debate Society</option>
+            <option value="Ateneo Economics Association">Ateneo Economics Association</option>
+            <option value="Ateneo Education Geared towards Empowerment">Ateneo Education Geared towards Empowerment</option>
+            <option value="Ateneo Electronics and Computer Engineering Society">Ateneo Electronics and Computer Engineering Society</option>
+            <option value="Ateneo ENterteynment para sa TAo, Bayan, LAnsangan, at DiyOs">Ateneo ENterteynment para sa TAo, Bayan, LAnsangan, at DiyOs</option>
+            <option value="Ateneo Environmental Science Society">Ateneo Environmental Science Society</option>
+            <option value="Ateneo Gabay">Ateneo Gabay</option>
+            <option value="Ateneo Hinomoto">Ateneo Hinomoto</option>
+            <option value="Ateneo League of Physicists">Ateneo League of Physicists</option>
+            <option value="Ateneo Lex">Ateneo Lex</option>
+            <option value="Ateneo Lingua Ars Cultura">Ateneo Lingua Ars Cultura</option>
+            <option value="Ateneo Management Association">Ateneo Management Association</option>
+            <option value="Ateneo Management Economics Organization">Ateneo Management Economics Organization</option>
+            <option value="Ateneo Management Engineering Association">Ateneo Management Engineering Association</option>
+            <option value="Ateneo Management Information Systems Association">Ateneo Management Information Systems Association</option>
+            <option value="Ateneo Martial Law Museum - Junior Fellows">Ateneo Martial Law Museum - Junior Fellows</option>
+            <option value="Ateneo Mathematics Society">Ateneo Mathematics Society</option>
+            <option value="Ateneo Musicians' Pool">Ateneo Musicians' Pool</option>
+            <option value="Ateneo Office of the Ombudsman">Ateneo Office of the Ombudsman</option>
+            <option value="Ateneo Peers">Ateneo Peers</option>
+            <option value="Ateneo Project for Asian and International Relations">Ateneo Project for Asian and International Relations</option>
+            <option value="Ateneo Psyche">Ateneo Psyche</option>
+            <option value="Ateneo Special Education Society">Ateneo Special Education Society</option>
+            <option value="Ateneo Student Catholic Action">Ateneo Student Catholic Action</option>
+            <option value="Ateneo Student Exchange Council">Ateneo Student Exchange Council</option>
+            <option value="Ateneo Student Judicial Court">Ateneo Student Judicial Court</option>
+            <option value="Barefoot Philippines Ateneo">Barefoot Philippines Ateneo</option>
+            <option value="Baybayin Ateneo">Baybayin Ateneo</option>
+            <option value="Company of Ateneo Dancers">Company of Ateneo Dancers</option>
+            <option value="Computer Society of the Ateneo">Computer Society of the Ateneo</option>
+            <option value="Council of Organizations of the Ateneo - Manila">Council of Organizations of the Ateneo - Manila</option>
+            <option value="Department of Student Welfare and Services">Department of Student Welfare and Services</option>
+            <option value="Development Society of the Ateneo">Development Society of the Ateneo</option>
+            <option value="Habitat For Humanity Blue Chapter">Habitat For Humanity Blue Chapter</option>
+            <option value="Health Sciences Society of the Ateneo">Health Sciences Society of the Ateneo</option>
+            <option value="HEIGHTS Ateneo">HEIGHTS Ateneo</option>
+            <option value="Kythe-Ateneo">Kythe-Ateneo</option>
+            <option value="Laan Ateneo">Laan Ateneo</option>
+            <option value="Lights for Hope">Lights for Hope</option>
+            <option value="Loyola Film Circle">Loyola Film Circle</option>
+            <option value="Loyola Mountaineers">Loyola Mountaineers</option>
+            <option value="Management of Applied Chemistry Association">Management of Applied Chemistry Association</option>
+            <option value="Matanglawin Ateneo">Matanglawin Ateneo</option>
+            <option value="Musmos Ateneo">Musmos Ateneo</option>
+            <option value="Office of Placement and Career Services">Office of Placement and Career Services</option>
+            <option value="Pre-Medical Society of the Ateneo">Pre-Medical Society of the Ateneo</option>
+            <option value="Rizal Library Ambassadors">Rizal Library Ambassadors</option>
+            <option value="Sanggunian ng mga Mag-aaral ng mga Paaralang Loyola ng Ateneo de Manila">Sanggunian ng mga Mag-aaral ng mga Paaralang Loyola ng Ateneo de Manila</option>
+            <option value="Scholars' Sectoral Board">Scholars' Sectoral Board</option>
+            <option value="Tanghalang Ateneo">Tanghalang Ateneo</option>
+            <option value="The Ateneo Assembly">The Ateneo Assembly</option>
+            <option value="The GUIDON">The GUIDON</option>
+            <option value="TUGON Ateneo">TUGON Ateneo</option>
+            <option value="Youth for Christ - Ateneo">Youth for Christ - Ateneo</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Organization Email:</label>
+        <input type="email" name="email" required>
+    </div>
+
+    <div>
+        <label>Password:</label>
+        <input type="password" name="password" required>
+    </div>
+
+    <button type="submit">Register</button>
+</form>
