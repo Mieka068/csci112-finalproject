@@ -8,10 +8,10 @@ def home(request):
     if not request.session.get('user_id'):
         return redirect('login')
 
-    return render(request, 'accounts/home.html')
+    return render(request, 'home.html')
 
 def register(request):
-    return render(request, 'accounts/register.html')
+    return render(request, 'register.html')
 
 def participant_register(request):
     if request.method == 'POST':
@@ -22,12 +22,12 @@ def participant_register(request):
         # Check if email already exists
         if get_user_by_email(email):
             messages.error(request, 'Email is already registered.')
-            return render(request, 'accounts/participant_register.html')
+            return render(request, 'participant_register.html')
 
         # Check if student ID already exists
         if get_participant_by_student_id(id_number):
             messages.error(request, 'Student ID is already registered.')
-            return render(request, 'accounts/participant_register.html')
+            return render(request, 'participant_register.html')
 
         try:
             participant = {
@@ -42,7 +42,7 @@ def participant_register(request):
 
         except (ValueError, TypeError):
             messages.error(request, 'Please enter a valid year level.')
-            return render(request, 'accounts/participant_register.html')
+            return render(request, 'participant_register.html')
 
         result = create_participant(participant)
 
@@ -58,7 +58,7 @@ def participant_register(request):
         messages.success(request, 'Participant registration successful!')
         return redirect('register')
 
-    return render(request, 'accounts/participant_register.html')
+    return render(request, 'participant_register.html')
 
 def organizer_register(request):
     if request.method == 'POST':
@@ -68,13 +68,13 @@ def organizer_register(request):
         # Check if email already exists
         if get_user_by_email(email):
             messages.error(request, 'Email is already registered.')
-            return render(request, 'accounts/organizer_register.html')
+            return render(request, 'organizer_register.html')
 
         organization_name = request.POST.get('organizationName', '').strip()
 
         if get_organizer_by_name(organization_name):
             messages.error(request, 'Organization is already registered.')
-            return render(request, 'accounts/organizer_register.html')
+            return render(request, 'organizer_register.html')
 
         organizer = {
             'organizationName': organization_name,
@@ -96,7 +96,7 @@ def organizer_register(request):
         messages.success(request, 'Organizer registration successful!')
         return redirect('register')
 
-    return render(request, 'accounts/organizer_register.html')
+    return render(request, 'organizer_register.html')
 
 def login(request):
     if request.method == 'POST':
@@ -116,9 +116,9 @@ def login(request):
             return redirect('home')
 
         messages.error(request, 'Invalid email or password.')
-        return render(request, 'accounts/login.html')
+        return render(request, 'login.html')
 
-    return render(request, 'accounts/login.html')
+    return render(request, 'login.html')
 
 def logout(request):
     request.session.flush()

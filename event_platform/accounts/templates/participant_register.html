@@ -1,16 +1,105 @@
-{% extends 'accounts/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 
-<h2>Organizer Registration</h2>
+<h2>Participant Registration</h2>
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
 
 <form method="POST">
     {% csrf_token %}
 
     <div>
-        <label>Organization Name:</label>
-        <select name="organizationName" required>
+        <label>ID Number:</label>
+        <input type="text" name="idNumber" required>
+    </div>
+
+    <div>
+        <label>First Name:</label>
+        <input type="text" name="firstName" required>
+    </div>
+
+    <div>
+        <label>Last Name:</label>
+        <input type="text" name="lastName" required>
+    </div>
+
+    <div>
+        <label>Year Level:</label>
+        <input type="number" name="year" min="1" required>
+    </div>
+
+    <div>
+        <label>Course Code:</label>
+        <select name="course" required>
             <option value="" disabled selected></option>
+            <option value="AB AM">AB AM</option>
+            <option value="AB ChnS">AB ChnS</option>
+            <option value="AB COM">AB COM</option>
+            <option value="AB DIP-IR">AB DIP-IR</option>
+            <option value="AB DS">AB DS</option>
+            <option value="AB EC">AB EC</option>
+            <option value="AB EC-H">AB EC-H</option>
+            <option value="AB EU">AB EU</option>
+            <option value="AB HI">AB HI</option>
+            <option value="AB HUM">AB HUM</option>
+            <option value="AB IS">AB IS</option>
+            <option value="AB LIT ENG">AB LIT ENG</option>
+            <option value="AB MEC">AB MEC</option>
+            <option value="AB PanFIL">AB PanFIL</option>
+            <option value="AB PH">AB PH</option>
+            <option value="AB POS">AB POS</option>
+            <option value="AB PSY">AB PSY</option>
+            <option value="AB SOCIO">AB SOCIO</option>
+            <option value="AB SOS">AB SOS</option>
+            <option value="BFA AM">BFA AM</option>
+            <option value="BFA CW">BFA CW</option>
+            <option value="BFA ID">BFA ID</option>
+            <option value="BFA TA">BFA TA</option>
+            <option value="BS AMDsc">BS AMDsc</option>
+            <option value="BS AMF">BS AMF</option>
+            <option value="BS APS">BS APS</option>
+            <option value="BS Bio">BS Bio</option>
+            <option value="BS CH">BS CH</option>
+            <option value="BS CoE">BS CoE</option>
+            <option value="BS COMTECH">BS COMTECH</option>
+            <option value="BS CS">BS CS</option>
+            <option value="BS CS-DGDD">BS CS-DGDD</option>
+            <option value="BS EcE">BS EcE</option>
+            <option value="BS ES">BS ES</option>
+            <option value="BS HS">BS HS</option>
+            <option value="BS ITE">BS ITE</option>
+            <option value="BS LEARN">BS LEARN</option>
+            <option value="BS LfSci">BS LfSci</option>
+            <option value="BS LM">BS LM</option>
+            <option value="BS MA">BS MA</option>
+            <option value="BS MAC">BS MAC</option>
+            <option value="BS ME">BS ME</option>
+            <option value="BS MGT">BS MGT</option>
+            <option value="BS MGT-H">BS MGT-H</option>
+            <option value="BS MIS">BS MIS</option>
+            <option value="BS MSE">BS MSE</option>
+            <option value="BS PS">BS PS</option>
+            <option value="BS PSY">BS PSY</option>
+            <option value="BS REnT">BS REnT</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Student Email:</label>
+        <input type="email" name="email" required>
+    </div>
+
+    <div>
+        <label>Password:</label>
+        <input type="password" name="password" required>
+    </div>
+
+    <div>
+        <label>Organizations:</label>
+    
+        <select name="organizations" id="organizations" multiple>
             <option value="AIESEC in Ateneo de Manila University">AIESEC in Ateneo de Manila University</option>
             <option value="Alay ni Ignacio">Alay ni Ignacio</option>
             <option value="Ateneo AEGIS">Ateneo AEGIS</option>
@@ -86,17 +175,15 @@
         </select>
     </div>
 
-    <div>
-        <label>Organization Email:</label>
-        <input type="email" name="email" required>
-    </div>
-
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required>
-    </div>
-
     <button type="submit">Register</button>
 </form>
+
+<script>
+    new TomSelect("#organizations", {
+        plugins: ['remove_button'],
+        maxOptions: null,
+        dropdownParent: 'body'
+    });
+</script>
 
 {% endblock %}
