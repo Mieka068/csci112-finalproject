@@ -2,7 +2,19 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
 from .crud.create import create_participant, create_organizer, create_user
-from .crud.read import get_user_by_email, get_participant_by_student_id, get_organizer_by_name
+from .crud.read import (
+    get_user_by_email,
+    get_participant_by_id,
+    get_participant_by_student_id,
+    get_organizer_by_id,
+    get_organizer_by_name
+) 
+from .crud.update import (
+    update_participant,
+    update_organizer,
+    update_user
+)
+from .form_choices import COURSES, ORGANIZATIONS
 
 def home(request):
     if not request.session.get('user_id'):
@@ -78,8 +90,7 @@ def organizer_register(request):
 
         organizer = {
             'organizationName': organization_name,
-            'email': email,
-            'description': request.POST.get('description', '').strip()
+            'email': email
         }
 
         result = create_organizer(organizer)
@@ -112,6 +123,18 @@ def login(request):
             request.session['role'] = user['role']
             request.session['profile_id'] = str(user['profileId'])
 
+            if user['role'] == 'organizer':
+                organizer = get_organizer_by_id(user['profileId'])
+
+                if organizer:
+                    request.session['name'] = organizer['organizationName']
+            
+            elif user['role'] == 'participant':
+                participant = get_participant_by_id(user['profileId'])
+
+                if participant:
+                    request.session['name'] = participant['firstName'] + " " + participant['lastName']
+                    
             messages.success(request, 'Login successful!')
             return redirect('home')
 
@@ -124,3 +147,76 @@ def logout(request):
     request.session.flush()
     messages.success(request, 'You have been logged out.')
     return redirect('login')
+
+def edit_profile(request):
+    if not request.session.get('user_id'):
+        return redirect('home')
+
+    role = request.session.get('role')
+    profile_id = request.session.get('profile_id')
+    user_id = request.session.get('user_id')
+
+    if role == 'participant':
+        profile = get_participant_by_id(profile_id)
+
+    elif role == 'organizer':
+        profile = get_organizer_by_id(profile_id)
+
+    else:
+        return redirect('home')
+
+    if not profile:
+        messages.error(request, 'Profile not found.')
+        return redirect('home')
+
+    if request.method == 'POST':
+        email = request.POST.get('email', '').strip().lower()
+        existing_user = get_user_by_email(email)
+
+        if existing_user and str(existing_user['_id']) != user_id:
+            messages.error(request, 'Email is already registered.')
+            return render(request, 'edit_profile.html', {
+                'profile': profile,
+                'role': role,
+                'courses': COURSES,
+                'all_organizations': ORGANIZATIONS
+            })
+
+        if role == 'participant':
+            try:
+                updated_data = {
+                    'idNumber': request.POST.get('idNumber', '').strip(),
+                    'firstName': request.POST.get('firstName', '').strip(),
+                    'lastName': request.POST.get('lastName', '').strip(),
+                    'year': int(request.POST.get('year')),
+                    'course': request.POST.get('course', '').strip(),
+                    'email': email,
+                    'organizations': request.POST.getlist('organizations')
+                }
+
+            except (ValueError, TypeError):
+                messages.error(request, 'Please enter a valid year level.')
+                return render(request, 'edit_profile.html', {
+                    'profile': profile,
+                    'role': role,
+                    'courses': COURSES,
+                    'all_organizations': ORGANIZATIONS
+                })
+
+            update_participant(profile_id, updated_data)
+            request.session['name'] = f"{updated_data['firstName']} {updated_data['lastName']}"
+        
+        # TODO
+        # elif role == 'organizer':    
+
+        update_user(user_id, {'email': email})
+
+        messages.success(request, 'Profile updated successfully!')
+        return redirect('home')
+
+    return render(request, 'edit_profile.html', {
+        'profile': profile,
+        'role': role,
+        'courses': COURSES,
+        'all_organizations': ORGANIZATIONS
+    })
