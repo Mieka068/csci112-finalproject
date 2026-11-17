@@ -1,3 +1,7 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
 <h2>Participant Registration</h2>
 
 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
@@ -23,7 +27,7 @@
 
     <div>
         <label>Year Level:</label>
-        <input type="text" name="yearLevel" required>
+        <input type="number" name="year" min="1" required>
     </div>
 
     <div>
@@ -181,3 +185,5 @@
         dropdownParent: 'body'
     });
 </script>
+
+{% endblock %}
