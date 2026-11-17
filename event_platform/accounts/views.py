@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from .crud.create import create_participant, create_organizer, create_user
 from .crud.read import get_user_by_email, get_participant_by_student_id, get_organizer_by_name
 
 def home(request):
     if not request.session.get('user_id'):
-        return redirect('register')
+        return redirect('login')
 
     return render(request, 'accounts/home.html')
 
@@ -97,3 +97,30 @@ def organizer_register(request):
         return redirect('register')
 
     return render(request, 'accounts/organizer_register.html')
+
+def login(request):
+    if request.method == 'POST':
+        email = request.POST.get('email', '').strip().lower()
+        password = request.POST.get('password', '')
+
+        # Find user by email
+        user = get_user_by_email(email)
+
+        if user and check_password(password, user['password']):
+            # Store user information in session
+            request.session['user_id'] = str(user['_id'])
+            request.session['role'] = user['role']
+            request.session['profile_id'] = str(user['profileId'])
+
+            messages.success(request, 'Login successful!')
+            return redirect('home')
+
+        messages.error(request, 'Invalid email or password.')
+        return render(request, 'accounts/login.html')
+
+    return render(request, 'accounts/login.html')
+
+def logout(request):
+    request.session.flush()
+    messages.success(request, 'You have been logged out.')
+    return redirect('login')
