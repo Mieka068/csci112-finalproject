@@ -7,7 +7,6 @@
     <title>Blueboard</title>
 </head>
 <body>
-
     {% if messages %}
         {% for message in messages %}
             <p class="{{ message.tags }}">{{ message }}</p>
@@ -16,6 +15,5 @@
 
     {% block content %}
     {% endblock %}
-
 </body>
 </html>
