@@ -70,7 +70,10 @@ def participant_register(request):
         messages.success(request, 'Participant registration successful!')
         return redirect('register')
 
-    return render(request, 'participant_register.html')
+    return render(request, 'participant_register.html', {
+        'courses': COURSES,
+        'all_organizations': ORGANIZATIONS
+    })
 
 def organizer_register(request):
     if request.method == 'POST':
@@ -107,7 +110,9 @@ def organizer_register(request):
         messages.success(request, 'Organizer registration successful!')
         return redirect('register')
 
-    return render(request, 'organizer_register.html')
+    return render(request, 'organizer_register.html', {
+        'all_organizations': ORGANIZATIONS
+    })
 
 def login(request):
     if request.method == 'POST':
