@@ -206,8 +206,26 @@ def edit_profile(request):
             update_participant(profile_id, updated_data)
             request.session['name'] = f"{updated_data['firstName']} {updated_data['lastName']}"
         
-        # TODO
-        # elif role == 'organizer':    
+        elif role == 'organizer':
+            organization_name = request.POST.get('organizationName', '').strip()
+            existing_org = get_organizer_by_name(organization_name)
+
+            if existing_org and str(existing_org['_id']) != profile_id:
+                messages.error(request, 'Organization is already registered.')
+                return render(request, 'edit_profile.html', {
+                    'profile': profile,
+                    'role': role,
+                    'courses': COURSES,
+                    'all_organizations': ORGANIZATIONS
+                })
+
+            updated_data = {
+                'organizationName': organization_name,
+                'email': email,
+            }
+
+            update_organizer(profile_id, updated_data)
+            request.session['name'] = organization_name
 
         update_user(user_id, {'email': email})
 

@@ -70,10 +70,27 @@
             </select>
         </div>
 
-    <!-- TODO
     {% elif role == 'organizer' %}
-
-    {% endif %} -->
+        <h2>Organizer Information</h2>
+    
+        <div>
+            <label>Organization Name:</label>
+            <select name="organizationName">
+                {% for organization in all_organizations %}
+                    <option value="{{ organization }}"
+                        {% if organization == profile.organizationName %}selected{% endif %}>
+                        {{ organization }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div>
+            <label>Email:</label>
+            <input type="email" name="email" value="{{ profile.email }}" required>
+        </div>
+    
+    {% endif %}    
 
     <button type="submit">Save Changes</button>
 
