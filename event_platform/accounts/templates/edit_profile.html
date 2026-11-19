@@ -2,8 +2,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <h1>Edit Profile</h1>
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
 
 <form method="POST">
     {% csrf_token %}
@@ -92,7 +94,14 @@
     <button type="submit">Save Changes</button>
 
     <a href="{% url 'home' %}">Cancel</a>
-
 </form>
+
+<script>
+    new TomSelect("#organizations", {
+        plugins: ['remove_button'],
+        maxOptions: null,
+        dropdownParent: 'body'
+    });
+</script>
 
 {% endblock %}
