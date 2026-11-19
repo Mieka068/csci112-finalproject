@@ -1,0 +1,108 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Edit Profile</h1>
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {% if role == 'participant' %}
+        <h2>Participant Information</h2>
+
+        <div>
+            <label>ID Number:</label>
+            <input type="text" name="idNumber"
+                   value="{{ profile.idNumber }}" required>
+        </div>
+
+        <div>
+            <label>First Name:</label>
+            <input type="text" name="firstName"
+                   value="{{ profile.firstName }}" required>
+        </div>
+
+        <div>
+            <label>Last Name:</label>
+            <input type="text" name="lastName"
+                   value="{{ profile.lastName }}" required>
+        </div>
+
+        <div>
+            <label>Year Level:</label>
+            <input type="number" name="year"
+                   value="{{ profile.year }}" min="1" required>
+        </div>
+
+        <div>
+            <label>Course:</label>
+            <select name="course" required>
+                <option value="" disabled></option>
+            
+                {% for course in courses %}
+                    <option value="{{ course }}"
+                        {% if profile.course == course %}selected{% endif %}>
+                        {{ course }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label>Email:</label>
+            <input type="email" name="email"
+                   value="{{ profile.email }}" required>
+        </div>
+
+        <div>
+            <label>Organizations:</label>
+            <select name="organizations" id="organizations" multiple>
+                {% for organization in all_organizations %}
+                    <option value="{{ organization }}"
+                        {% if organization in profile.organizations %}selected{% endif %}>
+                        {{ organization }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+    {% elif role == 'organizer' %}
+        <h2>Organizer Information</h2>
+    
+        <div>
+            <label>Organization Name:</label>
+            <select name="organizationName">
+                {% for organization in all_organizations %}
+                    <option value="{{ organization }}"
+                        {% if organization == profile.organizationName %}selected{% endif %}>
+                        {{ organization }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div>
+            <label>Email:</label>
+            <input type="email" name="email" value="{{ profile.email }}" required>
+        </div>
+    
+    {% endif %}    
+
+    <button type="submit">Save Changes</button>
+
+    <a href="{% url 'home' %}">Cancel</a>
+</form>
+
+<script>
+    new TomSelect("#organizations", {
+        plugins: ['remove_button'],
+        maxOptions: null,
+        dropdownParent: 'body'
+    });
+</script>
+
+{% endblock %}
