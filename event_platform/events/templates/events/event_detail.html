@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ event.title }}</title>
+</head>
+<body>
+    <a href="{% url 'event_list' %}">Back to events</a>
+    <h1>{{ event.title }}</h1>
+    {% if event.description %}
+        <p>{{ event.description }}</p>
+    {% endif %}
+    {% if event.venue %}
+        <p>Venue: {{ event.venue }}</p>
+    {% endif %}
+    <p>Status: {{ event.status }}</p>
+</body>
+</html>
