@@ -9,9 +9,3 @@ def event_list(request):
         "events/event_list.html",
         {"events": event_list}
     )
-
-def login_view(request):
-    return render(request, "events/login.html")
-
-def register_view(request): 
-    return render(request, "events/register.html")
