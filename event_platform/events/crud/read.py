@@ -2,7 +2,9 @@ from database.db_collections import events
 from bson import ObjectId
 
 def get_all_events():
-    return list(events.find())
+    return list(events.find({
+        "status": { "$ne": "Cancelled" }
+    }))
 
 def get_event_by_id(event_id):
     return events.find_one({

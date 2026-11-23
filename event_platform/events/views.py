@@ -117,6 +117,22 @@ def edit_event_view(request, event_id):
         'event_id': event_id
     })
 
+def cancel_event_view(request, event_id):
+    if not request.session.get('user_id'):
+        return redirect('login')
+
+    event = get_event_by_id(event_id)
+
+    if event['organizationID'] != ObjectId(request.session.get('profile_id')):
+        messages.error(request, 'You cannot cancel this event.')
+        return redirect('org_event_list')
+
+    if request.method == 'POST':
+        update_event(event_id, { "status": "Cancelled" })
+        messages.success(request, 'Event cancelled successfully.')
+
+    return redirect('org_event_list')
+
 def org_event_list_view(request):
     if not request.session.get('user_id'):
         return redirect('login')
