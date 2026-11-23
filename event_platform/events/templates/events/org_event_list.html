@@ -16,13 +16,14 @@
     {% for event in events %}
 
         <div>
-            <h2>{{ event.eventName }} <a href="{% url 'event_detail' event_id=event.event_id %}">
+            <h2>{{ event.eventName }}</h2>
+            <a href="{% url 'event_detail' event_id=event.event_id %}">
                 <button type="button">View Event Details</button>
-            </a></h2>
+            </a>
             <p><strong>Status:</strong> {{ event.status }}</p>
             <p><strong>Description:</strong>
             <br>{{ event.description }}</p>
-            
+
             {% if event.status != 'Cancelled' %}
                 <form method="POST" action="{% url 'cancel_event' event_id=event.event_id %}">
                     {% csrf_token %}

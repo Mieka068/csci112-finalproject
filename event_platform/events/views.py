@@ -5,15 +5,17 @@ from .crud.create import create_event
 from .crud.read import (
     get_all_events,
     get_event_by_id,
-    get_events_by_organization
+    get_events_by_organization,
+    get_event_participants
 )
-from .crud.update import update_event
+from .crud.update import update_event, update_event_statuses
 from .form_choices import STATUSES, TYPES
 from datetime import datetime
 from bson import ObjectId
 
 
 def event_list(request):
+    update_event_statuses()
     event_list = get_all_events()
 
     return render(
@@ -61,7 +63,7 @@ def create_event_view(request):
 
             create_event(event)
             messages.success(request, 'Event created successfully.')
-            return redirect('event_list')
+            return redirect('org_event_list')
 
     return render(request, 'events/create_event.html', {
         'statuses': STATUSES,
@@ -106,7 +108,7 @@ def edit_event_view(request, event_id):
 
             update_event(event_id, updated_data)
             messages.success(request, 'Event updated successfully.')
-            return redirect('event_list')
+            return redirect('event_detail', event_id=event_id)
 
     return render(request, 'events/edit_event.html', {
         'event': event,
@@ -134,6 +136,8 @@ def cancel_event_view(request, event_id):
     return redirect('org_event_list')
 
 def org_event_list_view(request):
+    update_event_statuses()
+
     if not request.session.get('user_id'):
         return redirect('login')
 
@@ -150,8 +154,13 @@ def org_event_list_view(request):
     })
 
 def event_detail_view(request, event_id):
+    update_event_statuses()
+
     event = get_event_by_id(event_id)
+    participants = get_event_participants(event_id)
+
     return render(request, 'events/event_detail.html', {
         'event': event,
-        'event_id': event_id
+        'event_id': event_id,
+        'participants': participants
     })

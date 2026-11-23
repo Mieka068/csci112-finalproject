@@ -6,9 +6,12 @@
 <body>
 
     <h1>{{ event.eventName }}</h1>
-    <a href="{% url 'edit_event' event_id=event_id %}">
-        <button type="button">Edit Event</button>
-    </a>
+
+    {% if event.status != 'Cancelled' %}
+        <a href="{% url 'edit_event' event_id=event_id %}">
+            <button type="button">Edit Event</button>
+        </a>
+    {% endif%}
     
     <p><strong>Status:</strong> {{ event.status }}
     <br><strong>Start:</strong> {{ event.startTime }}
@@ -20,6 +23,16 @@
     <p><strong>Maximum Participants:</strong> {{ event.maxParticipants }}</p>
     <p><strong>Current Participants:</strong> {{ event.currentParticipants }}</p>
     <p><strong>Open to All:</strong> {{ event.openToAll }}</p>
+    
+    <h3>Participants</h3>
+
+    <ul>
+        {% for participant in participants %}
+            <li>({{ participant.idNumber }}) {{ participant.firstName }} {{ participant.lastName }}</li>
+        {% empty %}
+            <li>No one is currently registered in this event.</li>
+        {% endfor%}
+    </ul>
     
     <a href="{% url 'org_event_list' %}">Back to My Events</a>
 

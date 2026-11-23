@@ -45,7 +45,7 @@
             <label>Event Type:</label>
             <select name="eventType" required>
                 {% for type in types %}
-                    <option value="{{ type }}" {% if event.status == status %}selected{% endif %}>
+                    <option value="{{ type }}" {% if event.eventType == type %}selected{% endif %}>
                         {{ type }}</option>
                 {% endfor %}
             </select>
