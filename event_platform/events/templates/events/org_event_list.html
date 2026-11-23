@@ -5,13 +5,114 @@
 </head>
 <body>
 
-    <h1>My Events</h1>
-
     {% if messages %}
         {% for message in messages %}
             <p>{{ message }}</p>
         {% endfor %}
     {% endif %}
+
+    <h1>My Events</h1>
+
+    <form method="GET">
+
+        <label>Search by Title:</label>
+        <input
+            type="text"
+            name="search"
+            value="{{ filters.search }}"
+            placeholder="Search event title..."
+        >
+
+        <br><br>
+
+        <label>Event Type:</label>
+        <select name="eventType">
+            <option value="">All Types</option>
+
+            {% for type in types %}
+                <option value="{{ type }}"
+                    {% if filters.eventType == type %}selected{% endif %}>
+                    {{ type }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label>Minimum Start Date:</label>
+        <input
+            type="date"
+            name="min_date"
+            value="{{ min_date_value }}"
+        >
+
+        <br><br>
+
+        <label>Maximum Start Date:</label>
+        <input
+            type="date"
+            name="max_date"
+            value="{{ max_date_value }}"
+        >
+
+        <br><br>
+
+        <label>Open to All:</label>
+        <select name="openToAll">
+            <option value="">All</option>
+            <option value="yes"
+                {% if filters.openToAll == 'yes' %}selected{% endif %}>
+                Yes
+            </option>
+            <option value="no"
+                {% if filters.openToAll == 'no' %}selected{% endif %}>
+                No
+            </option>
+        </select>
+
+        <br><br>
+
+        <label>
+            <input
+                type="checkbox"
+                name="notDone"
+                {% if filters.notDone %}checked{% endif %}
+            >
+            Show Only Upcoming/Ongoing Events
+        </label>
+
+        <br><br>
+
+        <label>Sort By:</label>
+        <select name="sort">
+            <option value="date_asc"
+                {% if filters.sort == 'date_asc' %}selected{% endif %}>
+                Start Date (Earliest First)
+            </option>
+
+            <option value="date_desc"
+                {% if filters.sort == 'date_desc' %}selected{% endif %}>
+                Start Date (Latest First)
+            </option>
+
+            <option value="title_asc"
+                {% if filters.sort == 'title_asc' %}selected{% endif %}>
+                Title (A-Z)
+            </option>
+
+            <option value="title_desc"
+                {% if filters.sort == 'title_desc' %}selected{% endif %}>
+                Title (Z-A)
+            </option>
+        </select>
+
+        <br><br>
+
+        <button type="submit">Apply Filters</button>
+
+        <a href="{% url 'org_event_list' %}">Clear Filters</a>
+
+    </form>
     
     {% for event in events %}
 

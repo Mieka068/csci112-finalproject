@@ -10,7 +10,7 @@ from .crud.read import (
 )
 from .crud.update import update_event, update_event_statuses
 from .form_choices import STATUSES, TYPES
-from datetime import datetime
+from datetime import datetime, timedelta
 from bson import ObjectId
 
 
@@ -145,12 +145,36 @@ def org_event_list_view(request):
         messages.error(request, 'Only organizers can view this page.')
         return redirect('home')
 
-    org_events = get_events_by_organization(request.session.get('profile_id'))
+    filters = {
+        'search': request.GET.get('search', '').strip(),
+        'eventType': request.GET.get('eventType', ''),
+        'openToAll': request.GET.get('openToAll', ''),
+        'notDone': request.GET.get('notDone') == 'on',
+        'sort': request.GET.get('sort', 'date_asc')
+    }
+
+    min_date = request.GET.get('min_date')
+    if min_date:
+        filters['min_date'] = timezone.make_aware(
+            datetime.strptime(min_date, '%Y-%m-%d')
+        )
+    max_date = request.GET.get('max_date')
+    if max_date:
+        filters['max_date'] = timezone.make_aware(
+            datetime.strptime(max_date, '%Y-%m-%d') + timedelta(days=1)
+        )
+
+    org_events = get_events_by_organization(request.session.get('profile_id'), filters)
+    
     for event in org_events:
         event['event_id'] = str(event['_id'])
    
     return render(request, 'events/org_event_list.html', {
-        'events': org_events
+        'events': org_events,
+        'types': TYPES,
+        'filters': filters,
+        'min_date': min_date or '',
+        'max_date': max_date or ''
     })
 
 def event_detail_view(request, event_id):
