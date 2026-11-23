@@ -169,8 +169,9 @@
       <a href="{% url 'home' %}" class="{% if current == 'home' %}active{% endif %}">Overview</a>
       {% if request.session.role == 'organizer' %}
         <a href="{% url 'org_event_list' %}" class="{% if current == 'org_event_list' or current == 'create_event' or current == 'edit_event' or current == 'event_detail' %}active{% endif %}">Events</a>
+      {% else %}
+        <a href="{% url 'event_list' %}" class="{% if current == 'event_list' %}active{% endif %}">Discover events</a>
       {% endif %}
-      <a href="{% url 'event_list' %}" class="{% if current == 'event_list' %}active{% endif %}">Discover events</a>
     </nav>
     {% endwith %}
 
