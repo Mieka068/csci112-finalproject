@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Events</title>
+</head>
+<body>
+
+    <h1>My Events</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    
+    {% for event in events %}
+
+        <div>
+            <h2>{{ event.eventName }} <a href="{% url 'event_detail' event_id=event.event_id %}">
+                <button type="button">View Event Details</button>
+            </a></h2>
+            <p><strong>Status:</strong> {{ event.status }}</p>
+            <p><strong>Description:</strong>
+            <br>{{ event.description }}</p>
+        </div>
+
+        <hr>
+
+    {% empty %}
+
+        <p>You have not created any events.</p>
+
+    {% endfor %}
+
+    <a href="{% url 'create_event' %}">Create a New Event</a>
+    <br><a href="{% url 'home' %}">Back to Home</a>
+
+</body>
+</html>

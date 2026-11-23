@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ event.eventName }}</title>
+</head>
+<body>
+
+    <h1>{{ event.eventName }}</h1>
+    <a href="{% url 'edit_event' event_id=event_id %}">
+        <button type="button">Edit Event</button>
+    </a>
+    
+    <p><strong>Status:</strong> {{ event.status }}
+    <br><strong>Start:</strong> {{ event.startTime }}
+    <br><strong>End:</strong> {{ event.endTime }}</p>
+    <p><strong>Description:</strong><br>
+    {{ event.description }}</p>
+    <p><strong>Location:</strong> {{ event.location }}</p>
+    <p><strong>Event Type:</strong> {{ event.eventType }}</p>
+    <p><strong>Maximum Participants:</strong> {{ event.maxParticipants }}</p>
+    <p><strong>Current Participants:</strong> {{ event.currentParticipants }}</p>
+    <p><strong>Open to All:</strong> {{ event.openToAll }}</p>
+    
+    <a href="{% url 'org_event_list' %}">Back to My Events</a>
+
+</body>
+</html>
