@@ -42,10 +42,16 @@ def get_events_by_organization(org_id, filters=None):
     elif filters.get('openToAll') == 'no':
         query['openToAll'] = False
 
+    status_filter = {}
+
     if filters.get('notDone'):
-        query['status'] = {
-            '$nin': ['Cancelled', 'Completed']
-        }
+        status_filter['$nin'] = ['Cancelled', 'Completed']
+
+    if filters.get('status'):
+        status_filter['$eq'] = filters['status']
+
+    if status_filter:
+        query['status'] = status_filter
 
     sort_options = {
         'date_asc': ('startTime', 1),

@@ -157,8 +157,12 @@ def org_event_list_view(request):
         'eventType': request.GET.get('eventType', ''),
         'openToAll': request.GET.get('openToAll', ''),
         'notDone': request.GET.get('notDone') == 'on',
+        'status': request.GET.get('status', ''),
         'sort': request.GET.get('sort', 'date_asc')
     }
+
+    if filters['status'] not in STATUSES:
+        filters['status'] = ''
 
     min_date = request.GET.get('min_date')
     if min_date:
@@ -179,6 +183,7 @@ def org_event_list_view(request):
     return render(request, 'events/org_event_list.html', {
         'events': org_events,
         'types': TYPES,
+        'statuses': STATUSES,
         'filters': filters,
         'min_date': min_date or '',
         'max_date': max_date or ''
